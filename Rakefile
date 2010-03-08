@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "brm-ruby-logger"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "Ruby event logger for the BRM real-time analytics and BI solution"
+    gem.description = ""
     gem.email = "mathieu.ravaux@gmail.com"
     gem.homepage = "http://github.com/mathieuravaux/brm-ruby-logger"
     gem.authors = ["mathieuravaux"]
