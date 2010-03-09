@@ -24,7 +24,7 @@ module BrmLogger
      bunny_options = args.extract_options!
      @connection = Bunny.new bunny_options
      @connection.start
-     @queue = @connection.queue "/"
+     @queue = @connection.queue "reactor.#{application}"
     end
 
     def disconnect()

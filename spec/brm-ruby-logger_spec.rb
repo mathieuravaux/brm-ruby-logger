@@ -14,16 +14,16 @@ RABBITMQ_VHOST = '/'
 
 describe "BrmLogger" do
   before(:each) do
-    user_id = "123"
-    application = "brm-ruby-logger-tests"
-    @logger = BrmLogger::Logger.new(user_id, application,
-      # :logging => true,
+    application = "mambanation-dev"
+    @logger = BrmLogger::Logger.new(application,
+      :logging => true,
       :host => RABBITMQ_HOST,
       :port => RABBITMQ_PORT,
       :user => RABBITMQ_USERNAME,
       :pass => RABBITMQ_PASSWORD,
       :vhost => RABBITMQ_VHOST
     )
+    @logger.user_id = "123"
   end
   
   after(:each) do
