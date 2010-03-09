@@ -3,7 +3,7 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require "rubygems"
 require "bunny"
 require "active_support"
-require "pp"
+require "json"
 
 require "logger/event.rb"
 
@@ -25,16 +25,17 @@ module BrmLogger
      bunny_options = args.extract_options!
      @connection = Bunny.new bunny_options
      @connection.start
+     @queue = @connection.queue "/"
     end
 
     def disconnect()
       @connection.stop
     end
 
-    def event(eventName, data=nil, context=nil, event_ref="")
+    def event(event_name, data=nil, context=nil, event_ref="")
       event = HashWithIndifferentAccess.new
       event["data"] = data || {}
-      event["context"] = context || {}
+      event["context"] ||= {}
       
       
       event["data"]["agent"] = {:id => facet_id, :type => "facet"} if facet_id
@@ -43,10 +44,9 @@ module BrmLogger
         event["data"]["agent"] ||= {:id => user_id, :type => "user"}
         event["context"]["userID"] = user_id
       end
-      
       event["metaData"] = {
         "timestamp" => Time.now.to_i * 1000,
-        "eventName"  => $eventName,
+        "eventName"  => event_name,
         "application" => application,
         "loggerVersion" => VERSION,
         "loggerType" => "ruby",
@@ -62,7 +62,7 @@ module BrmLogger
     
     private
     def send event
-      
+      @queue.publish event.to_json
     end
   end
 

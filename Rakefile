@@ -2,6 +2,17 @@ require 'rubygems'
 require 'rake'
 
 begin
+  require 'metric_fu' rescue LoadError
+  MetricFu::Configuration.run do |config|
+    config.metrics = [:flog, :flay, :reek, :saikuro]
+    config.graphs = [:flog, :flay, :reek]
+    config.graph_engine = :gchart
+  end
+rescue LoadError
+  puts "Metric_fu (or a dependency) not available. Install it with: gem install metric_fu"
+end
+
+begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "brm-ruby-logger"
