@@ -18,8 +18,7 @@ module BrmLogger
       @sequence_number += 1
     end
 
-    def initialize(user_id, application,  *args)
-     @user_id = user_id
+    def initialize(application,  *args)
      @application = application
      
      bunny_options = args.extract_options!
